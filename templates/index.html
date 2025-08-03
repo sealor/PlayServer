@@ -3,15 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>MPV Stream Player</title>
+    <style>
+    body {
+      font-size: 14pt;
+    }
+
+    @media screen and (max-width: 1000px) {
+        body { font-size: 150%; }
+    }
+
+    button, input {
+      padding: 5pt;
+      font-size: 1em;
+    }
+    </style>
 </head>
 <body>
     <h1>MPV Stream Player</h1>
+    <lu>
+      <li><a href="https://mediathekviewweb.de/" target="_blank">Mediathek WebView</a></li>
+    </lu>
+    <br/>
     <form method="POST">
-        <lu>
-          <li><a href="https://mediathekviewweb.de/">Mediathek WebView</a></li>
-        </lu>
-        <input type="text" name="url" placeholder="Gib eine Stream-URL ein" size="50" required>
-        <button type="submit">Abspielen</button>
+      <input type="text" name="url" value="{{.URL}}" placeholder="Video URL" style="width: 70%;" required><br/>
+      <button type="submit">Play</button>
     </form>
+
+    {{if .URL}}
+        <p>You are watching: <strong>{{.URL}}</strong></p>
+        <form method="POST" action="/show-osc">
+            <button type="submit">Show Status</button>
+        </form>
+        <form method="POST" action="/hide-osc">
+            <button type="submit">Hide Status</button>
+        </form>
+        <form method="POST" action="/seek-backward">
+            <button type="submit">-15s</button>
+        </form>
+        <form method="POST" action="/seek-forward">
+            <button type="submit">+15s</button>
+        </form>
+        <form method="GET" action="/seek">
+            <input name="position" value="50" size="10"/>% <button type="submit">Seek</button>
+        </form>
+        <form method="POST" action="/toggle">
+            <button type="submit">Pause/Resume</button>
+        </form>
+        <form method="POST" action="/stop" style="display:inline;">
+            <button type="submit">Stop</button>
+        </form>
+    {{end}}
 </body>
 </html>
