@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"encoding/json"
 	"flag"
 	"html/template"
@@ -13,7 +14,9 @@ import (
 )
 
 var (
-	tmpl          = template.Must(template.ParseFiles("templates/index.html"))
+	//go:embed templates/index.html
+	templatesFS   embed.FS
+	tmpl          = template.Must(template.ParseFS(templatesFS, "templates/index.html"))
 	currentCmd    *exec.Cmd
 	cmdMutex      sync.Mutex
 	currentURL    string
